@@ -4,7 +4,13 @@ from gardnr import constants, drivers
 
 
 class InfluxDB(drivers.Exporter):
-    blacklist = [constants.Metrics.IMAGE]
+    blacklist = [constants.IMAGE]
+
+    host = 'localhost'
+    port = '8086'
+    username = 'root'
+    password = 'root'
+    database = None
 
     def setup(self):
         self.client = InfluxDBClient(self.host,
@@ -19,6 +25,9 @@ class InfluxDB(drivers.Exporter):
         for log in logs:
             json_body.append({
                 'measurement': log.metric.name,
+                'tags': {
+                    'id': log.id
+                },
                 'time': log.timestamp.isoformat(),
                 'fields': {
                     'value': log.value
