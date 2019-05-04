@@ -4,13 +4,12 @@ from gardnr import constants, drivers
 
 
 class InfluxDB(drivers.Exporter):
-    blacklist = [constants.IMAGE]
 
     host = 'localhost'
     port = '8086'
     username = 'root'
     password = 'root'
-    database = None
+    database = 'metrics'
 
     def setup(self):
         self.client = InfluxDBClient(self.host,
